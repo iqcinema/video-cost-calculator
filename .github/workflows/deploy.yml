@@ -1,36 +1,32 @@
 name: Deploy to GitHub Pages
 
 on:
- push:
- branches: [ main ]  # будет запускаться при каждом коммите в main
+  push:
+    branches:
+      - main
 
 jobs:
- deploy:
- runs-on: ubuntu-latest
+  deploy:
+    runs-on: ubuntu-latest
 
- steps:
- # 1. Скачать код из репозитория
- - name: Checkout
- uses: actions/checkout@v4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
- # 2. Установить Node.js
- - name: Setup Node
- uses: actions/setup-node@v3
- with:
- node-version: 18
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
- # 3. Установить зависимости
- - name: Install dependencies
- run: npm install
+      - name: Install dependencies
+        run: npm install
 
- # 4. Собрать проект
- - name: Build
- run: npm run build
+      - name: Build
+        run: npm run build
 
- # 5. Задеплоить в ветку gh-pages
- - name: Deploy
- uses: peaceiris/actions-gh-pages@v3
- with:
- github_token: ${{ secrets.GITHUB_TOKEN }}
- publish_dir: ./dist
- publish_branch: gh-pages
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
